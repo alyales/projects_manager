@@ -1,0 +1,36 @@
+<% if @project.errors.any? %>
+  <div class="alert alert-danger">
+    <h6><%= t('common.errors') %></h6>
+    <ul>
+      <% @project.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end -%>
+    </ul>
+  </div>
+<% end -%>
+
+<%= form_for @project do |f| %>
+  <div class="form-group">
+    <%= f.label :name %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :summary %>
+    <%= f.text_area :summary, class: "form-control"  %>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :start_date %>
+    <%= f.date_field :start_date, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :end_date %>
+    <%= f.date_field :end_date, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.submit 'Save', class: "btn btn-primary" %>
+    <%= link_to t('common.back'), :back, class: "btn btn-secondary" %>
+  </div>
+<% end -%>

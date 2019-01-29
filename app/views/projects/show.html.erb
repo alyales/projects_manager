@@ -1,0 +1,86 @@
+<h2 class="text-white bg-dark border-top text-center shadow p-3 mb-5"><%= @project.name %></h2>
+
+<div class="container shadow p-3 mb-5 bg-white rounded">
+  <article class="project">
+		<section class="project-name">
+			<h3><%= @project.name %></h3>
+				<small>
+          <% if current_user && current_user.admin? %>
+				    <%= link_to 'Edit', edit_project_path(@project) %>
+				    |
+				    <%= link_to 'Delete', project_path(@project), method: :delete, data: { confirm: 'Are u sure?' } %>
+          <% end -%>
+				</small>
+			</section>
+
+			<section class="project-summary">
+				<h4><%= @project.summary %></h4>
+			</section>
+
+			<section class="project-start-date">
+				<h5><%= @project.start_date %></h5>
+			</section>
+
+      <section class="project-end-date">
+        <% if @project.end_date.blank? %>
+          <h5>No end date</h5>
+        <% else %>
+          <%= @project.end_date %>
+        <% end -%>
+      </section>
+
+      <% if current_user && current_user.admin? %>
+			 <section>
+				<%= link_to 'Create a task', new_task_path, class: 'btn btn-outline-info -reverse' %>
+			 </section>
+      <% end -%>
+
+		</article>
+</div>
+
+<% if user_signed_in? %>
+  <div class="container">
+    <table class="table tasks">
+      <thead class="thead bg-dark text-white">
+        <tr>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Status</th>
+          <th scope="col">Responsible</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @project.tasks.each_with_index do |task| %>
+          <% if current_user && current_user.admin? %>
+            <tr>
+   	          <td><%= task.title %></td>
+   	          <td><%= task.description %></td>
+   	          <td><%= task.status %></td>
+                <% if task.user_id.blank? %>
+                  <td>None</td>
+                <% else %>
+                  <td><%= User.find(task.user_id).last_name %></td>
+                <% end -%>
+              <td>
+                <%= link_to 'Edit', edit_task_path(task), class: 'btn btn-outline-primary btn-sm' %>
+                <%= link_to 'Delete', task_path(task), method: :delete, data: { confirm:'Are u sure?'}, class: 'btn btn-outline-danger btn-sm' %>
+              </td>
+            </tr>
+          <% elsif current_user.id == task.user_id || task.user_id.blank? %>
+            <tr>
+              <td><%= task.title %></td>
+              <td><%= task.description %></td>
+              <td><%= task.status %></td>
+                <% if task.user_id.blank? %>
+                  <td>None</td>
+                <% else %>
+                  <td><%= User.find(task.user_id).last_name %></td>
+                <% end -%>
+            </tr>
+          <% end -%>
+        <% end -%>
+      </tbody>
+    </table>
+  </div>
+<% end -%>

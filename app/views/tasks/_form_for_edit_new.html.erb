@@ -1,0 +1,43 @@
+<% if @task.errors.any? %>
+  <div class="alert alert-danger">
+    <h6><%= t('common.errors') %></h6>
+    <ul>
+      <% @task.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+      <% end -%>
+    </ul>
+  </div>
+<% end -%>
+
+<%= form_for @task do |f| %>
+  <div class="form-group">
+    <%= f.label :title %>
+    <%= f.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :project_id %>
+    <%= f.collection_select :project_id, Project.order(:name), :id, :name, {include_blank: false }, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, class: "form-control"  %>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :status %>
+    <%= f.text_field :status, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :user_id %>
+    <%= f.collection_select :user_id, User.order(:last_name), :id, :last_name, {include_blank: true }, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%=  f.submit 'Save', class: "btn btn-primary" %>
+    <%= link_to t('common.back'), :back, class: "btn btn-secondary" %>
+  </div>
+
+<% end -%>

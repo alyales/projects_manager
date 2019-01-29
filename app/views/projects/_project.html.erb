@@ -1,0 +1,38 @@
+<div class="container shadow p-3 mb-5 bg-white rounded">
+	<div class="row">
+		<article class="project">
+			<section class="project-name">
+				<h3><%= link_to project.name, project_path(project) %></h3>
+				<small>
+				<%  if current_user && current_user.admin? %>
+				<%= link_to 'Edit', edit_project_path(project) %>
+				|
+				<%= link_to 'Delete', project_path(project), method: :delete, data: { confirm: 'Are u sure?' } %>
+				<% end -%>
+				</small>
+			</section>
+
+			<section class="project-summary">
+				<h4><%= project.summary %></h4>
+			</section>
+
+			<section class="project-start-date">
+				<h5><%= project.start_date %></h5>
+			</section>
+			
+			<section class="project-end-date">
+				<% if project.end_date.blank? %>
+				<h5>No end date</h5>
+				<% else %>
+				<%= project.end_date %>
+				<% end -%>
+			</section>
+
+			<section>
+				<% if current_user && current_user.admin?  %>
+				<%= link_to 'Create a task', new_task_path, class: 'btn btn-outline-info pull-xs-left' %>
+				<% end -%>
+			</section>
+		</article>
+	</div>
+</div>
