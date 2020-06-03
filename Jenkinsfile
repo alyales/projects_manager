@@ -1,10 +1,5 @@
-pipeline {
-    agent { docker { image 'ruby' } }
-    stages {
-        stage('build') {
-            steps {
-                sh 'ruby --version'
-            }
-        }
-    }
+node {
+     stage('Checkout'){
+        echo 'Masseria Jenkinsfile'
+     }
 }
